@@ -8,7 +8,9 @@ void main() {
   GetIt.I.registerLazySingleton<http.Client>(
     () => http.Client(),
   );
-
+  GetIt.I.registerLazySingleton<GithubApiRepository>(
+    () => GithubApiRepository(),
+  );
   runApp(const MyApp());
 }
 
@@ -40,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    final repository = GithubApiRepository();
+    final repository = GetIt.I<GithubApiRepository>();
     repository.countRepositories().then((result) {
       setState(() {
         _counter = result;
