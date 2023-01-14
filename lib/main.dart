@@ -1,8 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
+  // DIの設定
+  GetIt.I.registerLazySingleton<http.Client>(
+    () => http.Client(),
+  );
+
   runApp(const MyApp());
 }
 
@@ -76,7 +82,7 @@ class GithubApiRepository {
       'https://api.github.com/search/repositories?q=flutter';
 
   Future<int> countRepositories() async {
-    final http.Client client = http.Client();
+    final http.Client client = GetIt.I<http.Client>();
     final response = await client.get(Uri.parse(kApiUrl));
     final map = json.decode(response.body) as Map<String, dynamic>;
     return map['total_count'] ?? -1;
